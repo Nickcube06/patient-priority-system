@@ -16,18 +16,22 @@ st.markdown("Enter patient details below and click **Calculate** to determine tr
 if "df" not in st.session_state:
     st.session_state.df = pd.DataFrame(
         [
-            {"Patient": "", "Age": 0, "Condition": "Non-Lethal", "Sickness": "Unknown"},
+            {"Patient": "", "Age": 0, "Condition": "mild", "Sickness": "Unknown"},
         ]
     )
 
 # Define options for dropdowns
-condition_options = ["Lethal", "Severe", "Non-Lethal"]
+condition_options = ["lethal", "moderate", "mild"]
 sickness_options = [
     "Heart Attack", 
     "Stroke", 
+    "ACV",
     "Cancer",
     "Kidney Disease",
+    "EPOC",
     "Diabetes",
+    "Neumonía",
+    "Covid",
     "Burn", 
     "Fracture", 
     "Flu", 
@@ -74,8 +78,6 @@ edited_df = st.data_editor(
 )
 
 # Calculate Button
-# Calculate Button
-# Calculate Button
 if st.button("Calculate Treatment Order", type="primary"):
     # Filter out empty rows where Patient name is empty
     valid_patients = edited_df[edited_df["Patient"] != ""].copy()
@@ -87,17 +89,21 @@ if st.button("Calculate Treatment Order", type="primary"):
 
         # 1. Define Severity Maps for Comparison
         condition_map = {
-            "Lethal": 3,
-            "Severe": 2,
-            "Non-Lethal": 1
+            "lethal": 3,
+            "moderate": 2,
+            "mild": 1
         }
         
         sickness_map = {
             "Heart Attack": 10,
             "Stroke": 9,
+            "ACV": 9,
             "Cancer": 8,
             "Kidney Disease": 7,
+            "EPOC": 7,
             "Diabetes": 6,
+            "Neumonía": 6,
+            "Covid": 5,
             "Burn": 5,
             "Fracture": 4,
             "Flu": 3,
